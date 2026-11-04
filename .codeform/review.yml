@@ -1,0 +1,22 @@
+version: 2
+ratings:
+  - name: Low
+  - name: High
+    when: { any_flag: true }
+routes:
+  Low: { reviewers: 1, from: anyone, depth: focused }
+  High: { reviewers: 1, from: anyone, depth: full }
+checks:
+  judges:
+    correctness:
+      kind: agent
+      rubric: .codeform/rubrics/correctness.md
+      models: [openai/gpt-6.1-sol]
+  rating_judgment: false
+  budget: { usd_per_run: 5 }
+  verdict: { unknown_as: blocked }
+  no_result: { reviewers: 1, from: anyone, depth: full }
+gate:
+  kind: github-status
+  name: route-gate
+  poster: isakbosman
