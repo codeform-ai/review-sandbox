@@ -11,12 +11,13 @@ checks:
     correctness:
       kind: agent
       rubric: .codeform/rubrics/correctness.md
-      models: [openai/gpt-6.1-sol]
+      models: [anthropic/claude-opus-5-5]
   rating_judgment: false
   budget: { usd_per_run: 5 }
   verdict: { unknown_as: blocked }
   no_result: { reviewers: 1, from: anyone, depth: full }
 gate:
-  kind: github-status
+  kind: github-check
   name: route-gate
-  poster: isakbosman
+  poster: "codeform-ai[bot]"
+  app: 5635014
