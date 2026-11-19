@@ -32,7 +32,6 @@ ratings:
         - "app/models/tenant*.ts"
         - "app/policies/**"
         # commerce: payments, purchases and credits
-        - "app/payments/**"
         - "app/controllers/billing/**"
         - "app/models/purchase*.ts"
         - "app/models/payment*.ts"
