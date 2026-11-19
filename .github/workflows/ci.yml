@@ -1,0 +1,25 @@
+name: ci
+on: pull_request
+permissions:
+  contents: read
+  statuses: write
+jobs:
+  test:
+    name: unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun test test/math.test.ts
+      - name: post a commit status
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }} -f state=${{ job.status == 'success' && 'success' || 'failure' }} -f context=ci/smoke -f description="smoke status from Actions"
+  ex1:
+    name: "EX-1 charge adds the fee"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun test test/charge.test.ts

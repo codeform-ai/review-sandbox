@@ -17,6 +17,8 @@ ratings:
       any_flag: true
       blocked_before: true
       shared_surface: true
+      # A touched path no rule matches is at least Medium until a person classifies it.
+      unmatched: true
   - name: High
     when:
       issue_rating: High
@@ -80,6 +82,8 @@ routes:
 extra_approvals:
   changed_expected_value: qe
   weakened_check: block
+  failed_tagged_test: block
+  open_question: block
   uncovered_behavior:
     ask: stewards
 
@@ -133,38 +137,39 @@ checks:
     proof: .codeform/rubrics/proof.md
     standards: .codeform/rubrics/standards.md
 
-  # The real policy names anthropic/, openai/ and xai/ models directly. This
-  # Workbench has only a GitHub Copilot login, which serves all three families.
+  # The real policy names anthropic/, openai/ and xai/ models. This Workbench
+  # has OpenAI and xAI, so the six judges are spread across those two.
   judges:
     spec:
       kind: agent
       rubric: spec
-      models: [github-copilot/claude-opus-5.5, github-copilot/gpt-6.2-sol, github-copilot/grok-4.7]
+      models: [openai/gpt-6.2-sol, xai/grok-4.7]
     architecture:
       kind: agent
       rubric: architecture
-      models: [github-copilot/grok-4.7]
+      models: [xai/grok-4.7]
     security:
       kind: agent
       rubric: security
-      models: [github-copilot/claude-opus-5.5, github-copilot/gpt-6.2-sol, github-copilot/grok-4.7]
+      models: [openai/gpt-6.2-sol, xai/grok-4.7]
     tests-and-controls:
       kind: agent
       rubric: tests-and-controls
-      models: [github-copilot/grok-4.7]
+      models: [openai/gpt-6.2-sol]
     proof:
       kind: agent
       rubric: proof
-      models: [github-copilot/grok-4.7]
+      models: [xai/grok-4.7]
     standards:
       kind: agent
       rubric: standards
-      models: [github-copilot/grok-4.7]
+      models: [openai/gpt-6.2-sol]
 
 gate:
   kind: github-check
   name: route-gate
-  poster: isakbosman
+  poster: "codeform-ai[bot]"
+  app: 5635014
   workbench: "Dev Test"
   bases: [work]
 
