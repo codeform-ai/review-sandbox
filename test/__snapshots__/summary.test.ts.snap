@@ -2,6 +2,6 @@
 
 exports[`snapshots a total 1`] = `
 {
-  "total": 5,
+  "total": 6,
 }
 `;
