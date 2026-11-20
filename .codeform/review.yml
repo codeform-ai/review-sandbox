@@ -19,6 +19,9 @@ ratings:
       shared_surface: true
       # A touched path no rule matches is at least Medium until a person classifies it.
       unmatched: true
+      # No linked issue, or one with no rating, is at least Medium.
+      unrated_issue: true
+      issue_rating: Medium
   - name: High
     when:
       issue_rating: High
@@ -55,6 +58,14 @@ ratings:
         - "openapi*.yml"
 
 only_raise: true
+issues:
+  provider: linear
+  rating:
+    from: label
+    prefix: "impact:"
+    map: { high: High, medium: Medium, low: Low }
+honesty:
+  split_above_lines: 600
 rate_together: issue
 
 roles:
@@ -108,7 +119,7 @@ automatic_merge:
 
 checks:
   triggers:
-    on: [ready_for_review, push]
+    on: [ready_for_review, push, label]
     drafts: false
 
   verdict:
