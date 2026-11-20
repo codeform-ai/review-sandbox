@@ -46,6 +46,8 @@ ratings:
         - "src/core/**"
         # Shared string helpers (row 33, merged while a PR is open).
         - "src/lib/strings.ts"
+        # Word helpers (loop 3 row 33, merged while a PR is open).
+        - "src/lib/words.ts"
 
 only_raise: true
 rate_together: issue
