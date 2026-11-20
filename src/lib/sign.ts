@@ -13,3 +13,7 @@ export function isZero(value: number) {
 export function isPositive(value: number) {
   return value > 0
 }
+
+export function isNegative(value: number) {
+  return value < 0
+}
