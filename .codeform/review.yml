@@ -1,11 +1,10 @@
-# Sandbox review policy for the review-e2e drive. Structurally the same as a
-# real team's integration-branch policy: ratings copied from an older
-# impact-rules.yml, six judges with rubrics, the gate pinned to a Workbench and
-# a non-default base branch. Paths and names are generic.
+# Sandbox review policy for review-e2e loop 2. Same shape as a real team's
+# integration-branch policy: three ratings, Medium floors, High paths, issue
+# ratings read from a Linear description line, six judges with rubrics, and the
+# gate on a non-default base. Paths are the sandbox's own.
 #
 # Codeform reads this file and the rubrics from a PR's base branch, never from
-# the PR, so a PR can't change the rules it's judged by. A PR that edits
-# .codeform/ is rated High.
+# the PR. A PR that edits .codeform/ is rated High.
 version: 2
 
 ratings:
@@ -17,58 +16,47 @@ ratings:
       any_flag: true
       blocked_before: true
       shared_surface: true
-      # A touched path no rule matches is at least Medium until a person classifies it.
+      # A touched path no rule matches is at least Medium.
       unmatched: true
       # No linked issue, or one with no rating, is at least Medium.
       unrated_issue: true
-      issue_rating: Medium
   - name: High
     when:
       issue_rating: High
       paths:
         # Review policy itself.
         - ".codeform/**"
-        # identity: authentication, authorization, roles and tenant visibility
+        # identity
         - "app/auth/**"
-        - "app/controllers/auth/**"
-        - "app/models/role*.ts"
-        - "app/models/tenant*.ts"
         - "app/policies/**"
-        # commerce: payments, purchases and credits
+        # commerce
         - "app/payments/**"
-        - "app/controllers/billing/**"
-        - "app/models/purchase*.ts"
         - "app/models/payment*.ts"
-        - "modules/ecommerce/**"
-        # data: schema, migrations and bulk jobs
-        - "db/migrate/**"
-        - "db/schema.ts"
-        - "app/jobs/bulk/**"
-        # controls-deployment: review controls, CI, infrastructure and config
+        # data
+        - "db/**"
+        # controls-deployment
         - ".github/**"
         - ".claude/**"
         - "config/**"
-        - "deploy/**"
-        - "Dockerfile"
+        - "Dockerfile*"
+        # dependency manifests
         - "package.json"
         - "bun.lock"
-        # public api surface
-        - "app/controllers/api/**"
-        - "public/api/**"
-        - "openapi*.yml"
-        # Shared string helpers (row 33).
-        - "src/lib/strings.ts"
+        # shared dependencies
+        - "src/core/**"
 
 only_raise: true
+rate_together: issue
+
 issues:
   provider: linear
+  key: "AVI-\\d+"
   rating:
-    from: label
-    prefix: "impact:"
-    map: { high: High, medium: Medium, low: Low }
+    from: description
+    pattern: "^Expected impact:\\s*(Low|Medium|High),\\s*because:"
+
 honesty:
   split_above_lines: 600
-rate_together: issue
 
 roles:
   stewards: [isakbosman]
@@ -95,33 +83,11 @@ routes:
 extra_approvals:
   changed_expected_value: qe
   weakened_check: block
-  failed_tagged_test: block
   open_question: block
-  uncovered_behavior:
-    ask: stewards
-
-automatic_merge:
-  classes:
-    - name: report-bug-fixes
-      paths:
-        - "app/reports/**"
-      label: Bug
-  earn:
-    track_record:
-      in_a_row: 30
-      bugs_included: 10
-    judge_bar:
-      min_catch_rate_lower_bound: 0.8
-  sample:
-    start: "1 in 5"
-    after_clean: 100
-    then: "1 in 10"
-    never_zero: true
-  revoke_on: [sev1, sev2, sampled_miss, judge_below_bar]
 
 checks:
   triggers:
-    on: [ready_for_review, push, label]
+    on: [ready_for_review, push]
     drafts: false
 
   verdict:
@@ -129,18 +95,6 @@ checks:
     disagreement_as: flagged
 
   rating_judgment: true
-
-  no_result:
-    reviewers: 1
-    from: stewards
-    depth: full
-    due: 4h
-
-  budget:
-    false_alarm_rate: 0.1
-    catch_lower_bound: 0.8
-    min_bad_cases: 30
-    min_clean_cases: 30
 
   rubrics:
     spec: .codeform/rubrics/spec.md
@@ -150,8 +104,7 @@ checks:
     proof: .codeform/rubrics/proof.md
     standards: .codeform/rubrics/standards.md
 
-  # The real policy names anthropic/, openai/ and xai/ models. This Workbench
-  # has OpenAI and xAI, so the six judges are spread across those two.
+  # Six judges on OpenAI and xAI. The real policy's Anthropic runs are on OpenAI here.
   judges:
     spec:
       kind: agent
@@ -168,7 +121,7 @@ checks:
     tests-and-controls:
       kind: agent
       rubric: tests-and-controls
-      models: [openai/gpt-6.2-sol]
+      models: [xai/grok-4.7]
     proof:
       kind: agent
       rubric: proof
@@ -176,7 +129,7 @@ checks:
     standards:
       kind: agent
       rubric: standards
-      models: [openai/gpt-6.2-sol]
+      models: [xai/grok-4.7]
 
 gate:
   kind: github-check
