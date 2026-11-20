@@ -5,3 +5,7 @@ export function sign(value: number) {
 export function abs(value: number) {
   return value < 0 ? -value : value
 }
+
+export function isZero(value: number) {
+  return value === 0
+}
