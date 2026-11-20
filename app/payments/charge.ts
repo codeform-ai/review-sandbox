@@ -3,3 +3,4 @@ export function charge(cents: number, fee: number) {
   if (fee < 0) throw new Error("fee must not be negative")
   return cents + Math.round(cents * fee)
 }
+// Fees are in cents.
