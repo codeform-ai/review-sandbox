@@ -3,9 +3,9 @@ impact:
   high: ["app/payments/**", ".codeform/**"]
   medium: ["src/**"]
 routes:
-  low: { reviewers: 1, from: anyone, depth: focused }
-  medium: { reviewers: 1, from: anyone, depth: focused }
-  high: { reviewers: 1, from: anyone, depth: full }
+  low: { approvals: 1, from: anyone, depth: focused }
+  medium: { approvals: 1, from: anyone, depth: focused }
+  high: { approvals: 1, from: anyone, depth: full }
 judges:
   correctness: { kind: builtin, dimension: correctness, effort: high }
 gate:
