@@ -9,3 +9,7 @@ export function abs(value: number) {
 export function isZero(value: number) {
   return value === 0
 }
+
+export function isPositive(value: number) {
+  return value > 0
+}
