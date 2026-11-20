@@ -44,6 +44,8 @@ ratings:
         - "bun.lock"
         # shared dependencies
         - "src/core/**"
+        # Shared string helpers (row 33, merged while a PR is open).
+        - "src/lib/strings.ts"
 
 only_raise: true
 rate_together: issue
@@ -87,7 +89,7 @@ extra_approvals:
 
 checks:
   triggers:
-    on: [ready_for_review, push]
+    on: [ready_for_review, push, label]
     drafts: false
 
   verdict:
