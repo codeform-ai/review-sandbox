@@ -1,5 +1,5 @@
 import { test, expect } from "bun:test"
-import { charge } from "../app/payments/charge"
+import { charge } from "../src/billing/charge"
 import expected from "./fixtures/expected.json"
 
 test("charge adds the fee", () => {
