@@ -86,6 +86,13 @@ routes:
     depth: full
     due: 1d
 
+  # The panel or router didn't report: one steward's full review (runbook). A hard-rule
+  # path still rates High, and its route counts beside this one.
+  no_result:
+    reviewers: 1
+    from: stewards
+    depth: full
+
 extra_approvals:
   changed_expected_value: qe
   weakened_check: block
