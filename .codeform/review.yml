@@ -87,6 +87,7 @@ routes:
 extra_approvals:
   changed_expected_value: qe
   weakened_check: block
+  failed_tagged_test: block
   open_question: block
 
 checks:
