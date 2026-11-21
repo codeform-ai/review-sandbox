@@ -30,7 +30,6 @@ ratings:
         - "app/auth/**"
         - "app/policies/**"
         # commerce
-        - "app/payments/**"
         - "app/models/payment*.ts"
         # data
         - "db/**"
