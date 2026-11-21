@@ -48,6 +48,8 @@ ratings:
         - "src/lib/strings.ts"
         # Word helpers (loop 3 row 33, merged while a PR is open).
         - "src/lib/words.ts"
+        # Pad helper (loop 4 row 33, merged while a PR is open).
+        - "src/lib/pad.ts"
 
 only_raise: true
 rate_together: issue
